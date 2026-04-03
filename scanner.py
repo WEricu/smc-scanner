@@ -18,6 +18,7 @@ MAX_SL_PCT_LOOSE=0.02
 LEVERAGE=10
 POSITION_USDT=10
 TP_RATIO=2.0
+MIN_RETURN_PCT=0.50
 SWING={"1h":3,"30m":3,"15m":2,"5m":2}
 exchange=ccxt.bitget({"enableRateLimit":True,"options":{"defaultType":"swap"}})
 
@@ -102,6 +103,7 @@ def _check(side,s1h,s30m,s15m,s5m,d5m,price,symbol):
     en=ob["entry"];sl=s5m["last_sl"] if side=="up" else s5m["last_sh"]
     sp=abs(en-sl)/en
     if sp>mx:return None
+    if sp*TP_RATIO*LEVERAGE<MIN_RETURN_PCT:return None
     rk=abs(en-sl);tp=en+rk*TP_RATIO if side=="up" else en-rk*TP_RATIO
     return {"symbol":symbol,"direction":"LONG" if side=="up" else "SHORT","price":price,
             "entry":en,"sl":sl,"tp":tp,"sl_pct":sp*100,"confluence":cf,
