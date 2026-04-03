@@ -19,7 +19,7 @@ LEVERAGE=10
 POSITION_USDT=10
 TP_RATIO=2.0
 SWING={"1h":3,"30m":3,"15m":2,"5m":2}
-exchange=ccxt.okx({"enableRateLimit":True,"options":{"defaultType":"swap"}})
+exchange=ccxt.bitget({"enableRateLimit":True,"options":{"defaultType":"swap"}})
 
 def fetch_ohlcv(symbol,timeframe,limit=200):
     raw=exchange.fetch_ohlcv(symbol,timeframe,limit=limit)
