@@ -13,8 +13,7 @@ SYMBOLS = ["BTC/USDT:USDT","ETH/USDT:USDT","BNB/USDT:USDT","SOL/USDT:USDT",
             "XRP/USDT:USDT","DOGE/USDT:USDT","ADA/USDT:USDT",
             "TRX/USDT:USDT","AVAX/USDT:USDT","LINK/USDT:USDT"]
 
-MAX_SL_PCT=0.03
-MAX_SL_PCT_LOOSE=0.02
+MAX_SL_PCT=0.04
 LEVERAGE=10
 POSITION_USDT=10
 TP_RATIO=2.0
@@ -123,7 +122,7 @@ def send_signal(sig):
     side=sig["direction"];ed="up" if side=="LONG" else "down"
     ic="\U0001f7e2" if side=="LONG" else "\U0001f534"
     lb="Long" if side=="LONG" else "Short"
-    sm="Std <=3%" if sig["confluence"]=="standard" else "Loose <=2% (30M neutral)"
+    sm="Std 2-4%" if sig["confluence"]=="standard" else "Loose <=2% (30M neutral)"
     ru=POSITION_USDT*sig["sl_pct"]/100*LEVERAGE
     s=sig["structure"]
     txt=(f"{ic} *{sym} {lb} Signal*\n\n"
