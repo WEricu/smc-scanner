@@ -16,9 +16,9 @@ SYMBOLS = ["BTC/USDT:USDT","ETH/USDT:USDT","BNB/USDT:USDT","SOL/USDT:USDT",
 MAX_SL_PCT=0.04
 LEVERAGE=10
 POSITION_USDT=10
-TP_RATIO=2.0
+TP_RATIO=1.5
 MIN_SL_PCT=0.02
-MIN_RETURN_PCT=0.50
+MIN_RETURN_PCT=0.30
 SWING={"1h":3,"30m":3,"15m":2,"5m":2}
 exchange=ccxt.bitget({"enableRateLimit":True,"options":{"defaultType":"swap"}})
 
@@ -128,7 +128,7 @@ def send_signal(sig):
     txt=(f"{ic} *{sym} {lb} Signal*\n\n"
          f"Entry (OB): {sig['entry']:.4f}\n"
          f"SL: {sig['sl']:.4f} ({sig['sl_pct']:.2f}%)\n"
-         f"TP 1:2: {sig['tp']:.4f}\n\n"
+         f"TP 1:1.5: {sig['tp']:.4f}\n\n"
          f"Order Block 5M: {sig['ob']['low']:.4f}-{sig['ob']['high']:.4f}\n\n"
          f"Confluence:\n{_tf(s['1h'],ed,'1H')}\n{_tf(s['30m'],ed,'30M')}\n"
          f"{_tf(s['15m'],ed,'15M')}\n{_tf(s['5m'],ed,'5M')}\n"
