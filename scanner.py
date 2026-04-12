@@ -12,7 +12,7 @@ TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "")
 SYMBOLS = ["BTC/USDT:USDT","ETH/USDT:USDT","BNB/USDT:USDT","SOL/USDT:USDT",
             "XRP/USDT:USDT","DOGE/USDT:USDT","ADA/USDT:USDT",
             "TRX/USDT:USDT","AVAX/USDT:USDT","LINK/USDT:USDT",
- "XAU/USDT:USDT","XAG/USDT:USDT","USOIL/USDT:USDT"]
+ "XAU/USDT:USDT","XAG/USDT:USDT"]
 
 MAX_SL_PCT=0.04
 LEVERAGE=10
@@ -146,7 +146,6 @@ def send_signal(sig):
 
 def main():
     print(f"SMC Scanner | {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}")
-    [print("OIL_SYM: "+s) for s in exchange.load_markets() if any(k in s.upper() for k in ["OIL","WTI","CRUDE","BRENT"])]
     hits=0
     for sym in SYMBOLS:
         print(f"-> {sym}")
