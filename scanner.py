@@ -11,12 +11,14 @@ TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "")
 
 SYMBOLS = ["BTC/USDT:USDT","ETH/USDT:USDT","BNB/USDT:USDT","SOL/USDT:USDT",
             "XRP/USDT:USDT","DOGE/USDT:USDT","ADA/USDT:USDT",
-            "TRX/USDT:USDT","AVAX/USDT:USDT","LINK/USDT:USDT"]
+            "TRX/USDT:USDT","AVAX/USDT:USDT","LINK/USDT:USDT",
+ "XAU/USDT:USDT","XAG/USDT:USDT","WTI/USDT:USDT"]
 
 MAX_SL_PCT=0.04
 LEVERAGE=10
 POSITION_USDT=10
-TP_RATIO=1.5
+TP1_RATIO=1.0
+TP2_RATIO=2.0
 MIN_SL_PCT=0.02
 MIN_RETURN_PCT=0.30
 SWING={"1h":3,"30m":3,"15m":2,"5m":2}
@@ -103,10 +105,10 @@ def _check(side,s1h,s30m,s15m,s5m,d5m,price,symbol):
     sp=abs(en-sl)/en
     if sp<MIN_SL_PCT:return None
     if sp>mx:return None
-    if sp*TP_RATIO*LEVERAGE<MIN_RETURN_PCT:return None
-    rk=abs(en-sl);tp=en+rk*TP_RATIO if side=="up" else en-rk*TP_RATIO
+    if sp*TP2_RATIO*LEVERAGE<MIN_RETURN_PCT:return None
+    rk=abs(en-sl);tp1=en+rk*TP1_RATIO if side=="up" else en-rk*TP1_RATIO;tp2=en+rk*TP2_RATIO if side=="up" else en-rk*TP2_RATIO
     return {"symbol":symbol,"direction":"LONG" if side=="up" else "SHORT","price":price,
-            "entry":en,"sl":sl,"tp":tp,"sl_pct":sp*100,"confluence":cf,
+            "entry":en,"sl":sl,"tp1":tp1,"tp2":tp2,"sl_pct":sp*100,"confluence":cf,
             "ob":ob,"structure":{"1h":s1h,"30m":s30m,"15m":s15m,"5m":s5m}}
 
 def _tf(s,ex,lb):
@@ -128,7 +130,8 @@ def send_signal(sig):
     txt=(f"{ic} *{sym} {lb} Signal*\n\n"
          f"Entry (OB): {sig['entry']:.4f}\n"
          f"SL: {sig['sl']:.4f} ({sig['sl_pct']:.2f}%)\n"
-         f"TP 1:1.5: {sig['tp']:.4f}\n\n"
+         f"TP1 (1R): {sig['tp1']:.4f}\n"
+         f"TP2 (2R): {sig['tp2']:.4f}\n\n"
          f"Order Block 5M: {sig['ob']['low']:.4f}-{sig['ob']['high']:.4f}\n\n"
          f"Confluence:\n{_tf(s['1h'],ed,'1H')}\n{_tf(s['30m'],ed,'30M')}\n"
          f"{_tf(s['15m'],ed,'15M')}\n{_tf(s['5m'],ed,'5M')}\n"
