@@ -146,6 +146,7 @@ def send_signal(sig):
 
 def main():
     print(f"SMC Scanner | {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}")
+    [print("OIL_SYM: "+s) for s in exchange.load_markets() if any(k in s.upper() for k in ["OIL","WTI","CRUDE","BRENT"])]
     hits=0
     for sym in SYMBOLS:
         print(f"-> {sym}")
